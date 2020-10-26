@@ -12,5 +12,5 @@ do
         FROM pg_stat_activity
         WHERE (NOW() - pg_stat_activity.query_start) > interval '${SLOW_QUERY_LIMIT:-5 minutes}' AND state = 'active';
     "
-    sleep ${INTEVAL:-300}
+    sleep ${SLEEP_INTERVAL:-300}
 done
