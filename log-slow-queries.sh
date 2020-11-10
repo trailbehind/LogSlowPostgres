@@ -1,9 +1,15 @@
-#!/bin/bash
-set -ex -o pipefail
+#!/usr/bin/env bash
+set -e -o pipefail
 
 # Make neccesary config is setup
 if [ -z "$PGHOST"]; then echo "PGHOST not defined"; exit -1; fi
 export PGUSER=${PGUSER:-postgres}
+
+until psql -c '\l'; do
+  echo >&2 "Postgres is unavailable - sleeping"
+  sleep 5
+done
+echo >&2 "Postgres is up. Starting query monitoring."
 
 while true
 do
